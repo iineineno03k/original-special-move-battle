@@ -138,7 +138,7 @@ function App() {
       }
 
     };
-    initializeLiff('hoge');
+    initializeLiff('2001116233-O1nxNMvR');
   }, []);
   useEffect(() => {
     setCurrentData(data);
