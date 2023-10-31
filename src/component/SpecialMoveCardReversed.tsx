@@ -36,7 +36,7 @@ const SpecialMoveCardReversed: React.FC<Props> = ({ myGallary, data, idToken, on
 
     const addFavoriteSp = async () => {
         try {
-            const apiUrl = 'http://localhost:8080/regist-gallary';
+            const apiUrl = 'https://original-specialmove.onrender.com/regist-gallary';
             const formData = new FormData();
             formData.append('spId', data.id.toString());
             formData.append('idToken', idToken);
@@ -53,9 +53,6 @@ const SpecialMoveCardReversed: React.FC<Props> = ({ myGallary, data, idToken, on
         } catch (error) {
             console.error("ギャラリー登録エラー", error);
         }
-    }
-    const winCount = () => {
-
     }
 
     return (
