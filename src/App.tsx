@@ -44,7 +44,7 @@ function App() {
         newData.splice(1, 1);
         setCurrentData(newData);
         setFadeReversedCard(false);
-      }, 350);
+      }, 150);
     }
   };
 
@@ -71,7 +71,7 @@ function App() {
         newData.splice(2, 1);
         setCurrentData(newData);
         setFadeCard(false);
-      }, 350);
+      }, 150);
     }
   };
 

@@ -25,6 +25,7 @@ const SpecialMoveCard: React.FC<Props> = ({ myGallary, data, idToken, onWin }) =
     const [open, setOpen] = useState(false);
     const isAlreadyFavorited = myGallary.some(item => item.id === data.id);
     const [favorited, setFavorited] = useState(isAlreadyFavorited);
+    const winPercentage = data.battleCount === 0 ? "NoData" : Math.round((data.winCount / data.battleCount) * 100) + "%";
 
     const handleOpen = () => {
         setOpen(true);
@@ -136,6 +137,12 @@ const SpecialMoveCard: React.FC<Props> = ({ myGallary, data, idToken, onWin }) =
                     </Typography>
                     <Typography variant="body1" style={{ whiteSpace: 'pre-line' }} sx={{ mt: 2 }}>
                         {data.description}
+                    </Typography>
+                    <Typography textAlign={"right"} variant="body1" sx={{ mt: 2 }}>
+                        {data.winCount}勝{data.loseCount}敗
+                    </Typography>
+                    <Typography textAlign={"right"} variant="body1" sx={{ mt: 2 }}>
+                        勝率: {winPercentage}
                     </Typography>
                 </Box>
             </Dialog>
