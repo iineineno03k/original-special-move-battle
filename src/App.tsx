@@ -6,7 +6,7 @@ import { TailSpin } from "react-loader-spinner";
 import SpecialMoveCard from "./component/SpecialMoveCard";
 import SpecialMoveCardReversed from "./component/SpecialMoveCardReversed";
 import { motion } from "framer-motion";
-import { Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@mui/material";
 
 
 function App() {
@@ -19,7 +19,11 @@ function App() {
   const [fadeReversedCard, setFadeReversedCard] = useState(false);
   const [winCount, setWinCount] = useState(0);
   const [reversedWinCount, setReversedWinCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleCloseModal = () => {
+    liff.closeWindow();
+  };
 
   const handleWinFromCard = async () => {
     setFadeReversedCard(true);
@@ -144,24 +148,45 @@ function App() {
     setCurrentData(data);
   }, [data]);
 
+  useEffect(() => {
+    if ((!currentData[0] || !currentData[1]) && !loading) {
+      setIsModalOpen(true);
+    }
+  }, [currentData, loading]);
+
+  const vsContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center', // 中央に寄せる
+    width: '100%', // コンテナを親の幅いっぱいに広げる
+  };
+
+  const vsTextStyle: React.CSSProperties = {
+    fontSize: '48px',
+    fontWeight: 'bold',
+    color: '#3A3A3C',
+    textShadow: '2px 2px 4px #222224',
+    margin: '0 20px', // テキストの左右のマージン
+  };
+
+  const barStyle: React.CSSProperties = {
+    height: '4px',
+    flex: 1, // バーを可能な限りの幅に拡張
+    background: 'linear-gradient(to right, #000000, #555555, #000000)',
+    boxShadow: '0px 0px 10px 3px rgba(255, 0, 0, 0.6)',
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh', justifyContent: 'center' }}>
       {loading ? (
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1
-        }}>
+        <div className="overlay">
           <TailSpin
             height={80}
             width={80}
             color="#4fa94d"
             ariaLabel="tail-spin-loading"
             radius={1}
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={loading}
+            visible={true}
           />
         </div>
       ) : (
@@ -173,7 +198,11 @@ function App() {
           ) : (
             <Typography variant="h6">他の必殺技投稿を待とう！</Typography>
           )}
-          <div style={{ fontSize: '24px', fontWeight: 'bold', backgroundColor: 'white', borderRadius: '50%', padding: '10px 20px', margin: '20px 0', textAlign: 'center' }}>VS</div>
+          <div style={vsContainerStyle}>
+            <div style={barStyle}></div>
+            <div style={vsTextStyle}>VS</div>
+            <div style={barStyle}></div>
+          </div>
           {currentData[1] ? (
             <motion.div initial="visible" animate={fadeReversedCard ? "hidden" : "visible"} variants={fadeOut}>
               <SpecialMoveCardReversed key={currentData[1].id} myGallary={myGallary} data={currentData[1]} idToken={idToken} onWin={handleWinFromReversedCard} />
@@ -183,6 +212,24 @@ function App() {
           )}
         </>
       )}
+      <Dialog
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'通知'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            他に表示できる必殺技がありません。少し待ってからまた来よう！
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="primary" autoFocus>
+            閉じる
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 
