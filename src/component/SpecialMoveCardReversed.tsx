@@ -19,9 +19,10 @@ interface Props {
     data: SpecialMoveDto;
     idToken: string;
     onWin: () => void;
+    showConfetti: boolean
 }
 
-const SpecialMoveCardReversed: React.FC<Props> = ({ myGallary, data, idToken, onWin }) => {
+const SpecialMoveCardReversed: React.FC<Props> = ({ myGallary, data, idToken, onWin, showConfetti }) => {
     const [open, setOpen] = useState(false);
     const isAlreadyFavorited = myGallary.some(item => item.id === data.id);
     const [favorited, setFavorited] = useState(isAlreadyFavorited);
@@ -109,6 +110,7 @@ const SpecialMoveCardReversed: React.FC<Props> = ({ myGallary, data, idToken, on
                                 variant="contained"
                                 color="secondary"
                                 onClick={onWin}
+                                disabled={showConfetti}
                                 sx={{
                                     borderRadius: '20px',
                                     backgroundColor: '#d32f2f',
