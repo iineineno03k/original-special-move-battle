@@ -75,7 +75,7 @@ function App() {
     formData.append('yourSpId', String(currentData[loserIndex].id));
     formData.append('idToken', idToken);
     try {
-      await fetch(apiUrl, { method: 'POST', body: formData });
+      fetch(apiUrl, { method: 'POST', body: formData });
       if (winnerIndex === 0) {
         setWinCount(winCount + 1);
         setReversedWinCount(0);
@@ -95,8 +95,7 @@ function App() {
           }
           setCurrentData(currentData => {
             let newData = [...currentData];
-            newData.splice(winnerIndex, 1);
-            newData.splice(loserIndex - 1, 1);
+            newData.splice(0, 2);
             return newData;
           });
           setWinCount(0);
